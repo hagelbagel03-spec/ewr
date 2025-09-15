@@ -3937,7 +3937,8 @@ const MainApp = () => {
 
           {/* Messages List */}
           <ScrollView 
-            style={dynamicStyles.messagesList}
+            style={[dynamicStyles.messagesList, { marginBottom: 80 }]}
+            contentContainerStyle={{ paddingBottom: 20 }}
             ref={(ref) => {
               if (ref && chatMessages.length > 0) {
                 setTimeout(() => ref.scrollToEnd({ animated: true }), 100);
