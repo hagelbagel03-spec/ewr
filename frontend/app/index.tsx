@@ -1451,12 +1451,18 @@ const MainApp = () => {
       
     } catch (error) {
       console.error('❌ Incident submission error:', error);
+      console.error('❌ Error response:', error.response);
+      console.error('❌ Error data:', error.response?.data);
       
       let errorMessage = 'Unbekannter Fehler';
       if (error.response?.data?.detail) {
         errorMessage = error.response.data.detail;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
       } else if (error.message) {
         errorMessage = error.message;
+      } else if (typeof error === 'object') {
+        errorMessage = JSON.stringify(error);
       }
       
       window.alert(`❌ Fehler beim Melden\n\nVorfall konnte nicht gemeldet werden.\nFehler: ${errorMessage}`);
