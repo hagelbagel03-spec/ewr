@@ -6190,6 +6190,16 @@ Beispielinhalt:
               </View>
             )}
             
+            {/* Karte direkt in den Vorfall-Details */}
+            {selectedIncident && (
+              <View style={{ marginTop: 20, marginBottom: 20 }}>
+                <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 12, color: colors.text }}>
+                  🗺️ Standort-Karte
+                </Text>
+                <GoogleMapsView incident={selectedIncident} />
+              </View>
+            )}
+            
             <TouchableOpacity 
               style={{
                 backgroundColor: colors.primary,
