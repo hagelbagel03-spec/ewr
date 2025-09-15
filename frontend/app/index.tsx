@@ -2026,6 +2026,39 @@ const MainApp = () => {
     }
   };
 
+  // Send Message Function
+  const sendMessage = async (type = 'private') => {
+    if (!newMessage.trim()) return;
+
+    try {
+      const messageData = {
+        content: newMessage.trim(),
+        sender: user?.username || 'Unbekannt',
+        type: type,
+        timestamp: new Date().toISOString()
+      };
+
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      // Sende an Backend
+      await axios.post(`${API_URL}/api/messages/private`, messageData, config);
+      
+      // Füge zu lokalen Messages hinzu
+      setMessages(prev => [...prev, messageData]);
+      
+      // Reset input
+      setNewMessage('');
+      
+      console.log('✅ Private message sent successfully');
+      
+    } catch (error) {
+      console.error('❌ Error sending private message:', error);
+      window.alert('❌ Nachricht konnte nicht gesendet werden');
+    }
+  };
+
   // Chat Screen für private Nachrichten
   const renderChatScreen = () => (
     <View style={dynamicStyles.container}>
