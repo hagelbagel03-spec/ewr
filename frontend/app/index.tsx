@@ -4350,7 +4350,7 @@ const MainApp = () => {
                     🏢 {officer.department || 'Allgemein'} • 🎖️ {officer.rank || 'Beamter'}
                   </Text>
                   <Text style={dynamicStyles.officerBadge}>
-                    🆔 Dienstnummer: {officer.badge_number || 'N/A'}
+                    🆔 Dienstnummer: {officer.service_number || 'N/A'}
                   </Text>
                   {officer.is_online && (
                     <Text style={[dynamicStyles.officerBadge, { color: colors.success }]}>
