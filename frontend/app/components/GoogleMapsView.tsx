@@ -159,35 +159,117 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: '#e9ecef',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
     marginBottom: 16,
+    overflow: 'hidden',
   },
 
-  mapIcon: {
-    marginBottom: 16,
+  mapContainer: {
+    width: '100%',
+    height: 240,
+    backgroundColor: '#e8f5e8',
+    position: 'relative',
+  },
+
+  streetsGrid: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+
+  street: {
+    position: 'absolute',
+    backgroundColor: '#d6d6d6',
+  },
+
+  streetHorizontal: {
+    width: '100%',
+    height: 3,
+  },
+
+  streetVertical: {
+    height: '100%',
+    width: 3,
+  },
+
+  incidentMarker: {
+    position: 'absolute',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 2,
+    borderColor: '#FF4444',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  policeMarker: {
+    position: 'absolute',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    padding: 6,
+    borderWidth: 2,
+    borderColor: '#2196F3',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+
+  markerLabel: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    marginTop: 2,
+    textAlign: 'center',
+  },
+
+  locationInfo: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    padding: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
+  locationText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+
+  coordinatesText: {
+    fontSize: 10,
+    color: '#666',
+    marginTop: 2,
+  },
+
+  mapDetails: {
+    padding: 16,
+    backgroundColor: '#ffffff',
   },
 
   mapTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8,
-    textAlign: 'center',
+    marginBottom: 4,
   },
 
   mapAddress: {
-    fontSize: 16,
-    marginBottom: 8,
-    textAlign: 'center',
-    paddingHorizontal: 20,
+    fontSize: 14,
+    marginBottom: 4,
   },
 
-  mapInfo: {
-    fontSize: 12,
-    marginBottom: 4,
-    textAlign: 'center',
-    opacity: 0.7,
+  priorityText: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 
   mapLegend: {
