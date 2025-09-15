@@ -733,7 +733,6 @@ const MainApp = () => {
   
   // Private Chat Management States
   const [privateChats, setPrivateChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
   const [showChatOptions, setShowChatOptions] = useState(null);
   const [editingChatName, setEditingChatName] = useState(null);
   const [newChatName, setNewChatName] = useState('');
