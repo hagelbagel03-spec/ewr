@@ -201,44 +201,56 @@ const styles = StyleSheet.create({
   // Hauptstraßen (dick und auffällig)
   mainStreet: {
     position: 'absolute',
-    backgroundColor: '#424242',
-    borderWidth: 1,
-    borderColor: '#212121',
+    backgroundColor: '#2c2c2c', // Dunkler und deutlicher
+    borderWidth: 2,
+    borderColor: '#1a1a1a', // Noch dunkler Border
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 2,
   },
 
   mainStreetHorizontal: {
     width: '100%',
-    height: 6,
+    height: 8, // Dicker!
   },
 
   mainStreetVertical: {
     height: '100%',
-    width: 6,
+    width: 8, // Dicker!
   },
 
-  // Nebenstraßen (dünner)
+  // Nebenstraßen (dünner aber sichtbar)
   street: {
     position: 'absolute',
-    backgroundColor: '#757575',
+    backgroundColor: '#4a4a4a', // Deutlicher grau
+    borderWidth: 1,
+    borderColor: '#333333',
   },
 
   streetHorizontal: {
     width: '100%',
-    height: 2,
+    height: 4, // Größer als vorher
   },
 
   streetVertical: {
     height: '100%',
-    width: 2,
+    width: 4, // Größer als vorher
   },
 
-  // Gebäude
+  // Gebäude (deutlicher)
   building: {
     position: 'absolute',
-    backgroundColor: '#bdbdbd',
-    borderWidth: 1,
-    borderColor: '#9e9e9e',
-    borderRadius: 2,
+    backgroundColor: '#8c8c8c', // Deutlicher grau
+    borderWidth: 2,
+    borderColor: '#666666', // Dunkler Border
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 3,
   },
 
   // Park/Grünfläche
