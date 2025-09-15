@@ -3445,7 +3445,180 @@ const MainApp = () => {
       lineHeight: 20,
     },
 
-    // Chat Screen Styles
+    // Chat Management Styles
+    chatHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    
+    chatHeaderTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      flex: 1,
+      textAlign: 'center',
+    },
+
+    chatOptionsModal: {
+      position: 'absolute',
+      top: 70,
+      right: 16,
+      backgroundColor: colors.surface,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      zIndex: 1000,
+    },
+
+    chatOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      borderTopWidth: 1,
+      borderTopColor: 'transparent',
+    },
+
+    chatOptionText: {
+      fontSize: 16,
+      color: colors.text,
+      marginLeft: 12,
+    },
+
+    editNameModal: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 2000,
+    },
+
+    editNameTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+
+    editNameInput: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: colors.text,
+      backgroundColor: colors.background,
+      minWidth: 250,
+      marginBottom: 16,
+    },
+
+    editNameButtons: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+
+    editNameButton: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 6,
+      alignItems: 'center',
+    },
+
+    newChatButton: {
+      backgroundColor: colors.primary,
+      borderRadius: 20,
+      width: 40,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    chatsList: {
+      flex: 1,
+    },
+
+    chatListItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+
+    chatAvatar: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+
+    chatInfo: {
+      flex: 1,
+    },
+
+    chatName: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+
+    chatLastMessage: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginBottom: 2,
+    },
+
+    chatTime: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+
+    chatActions: {
+      alignItems: 'center',
+    },
+
+    unreadBadge: {
+      backgroundColor: colors.primary,
+      borderRadius: 10,
+      minWidth: 20,
+      height: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 4,
+    },
+
+    unreadText: {
+      color: '#FFFFFF',
+      fontSize: 12,
+      fontWeight: '600',
+    },
+
+    screenHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
     chatContainer: {
       flex: 1,
       backgroundColor: colors.background,
