@@ -5109,9 +5109,6 @@ const MainApp = () => {
             </View>
           </ScrollView>
         </View>
-            </View>
-          </ScrollView>
-        </View>
       );
       case 'berichte': return renderBerichteScreen();
       case 'team': return renderTeamScreen();
