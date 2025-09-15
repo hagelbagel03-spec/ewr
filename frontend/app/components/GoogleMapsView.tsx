@@ -34,56 +34,77 @@ const GoogleMapsView = ({ incident }) => {
         </View>
         
         <View style={styles.mapPlaceholder}>
-          {/* Visuelle Karten-Darstellung */}
+          {/* Große, erkennbare Karten-Darstellung */}
           <View style={styles.mapContainer}>
-            {/* Straßen Grid */}
-            <View style={styles.streetsGrid}>
-              {/* Horizontale Straßen */}
-              <View style={[styles.street, styles.streetHorizontal, { top: 60 }]} />
-              <View style={[styles.street, styles.streetHorizontal, { top: 120 }]} />
-              <View style={[styles.street, styles.streetHorizontal, { top: 180 }]} />
+            {/* Stadtgebiet Hintergrund */}
+            <View style={styles.cityBackground}>
+              {/* Hauptstraßen (dick und deutlich) */}
+              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 80 }]} />
+              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 160 }]} />
+              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 240 }]} />
               
-              {/* Vertikale Straßen */}
-              <View style={[styles.street, styles.streetVertical, { left: 80 }]} />
-              <View style={[styles.street, styles.streetVertical, { left: 160 }]} />
-              <View style={[styles.street, styles.streetVertical, { left: 240 }]} />
+              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 100 }]} />
+              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 200 }]} />
+              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 300 }]} />
+              
+              {/* Nebenstraßen (dünner) */}
+              <View style={[styles.street, styles.streetHorizontal, { top: 50 }]} />
+              <View style={[styles.street, styles.streetHorizontal, { top: 120 }]} />
+              <View style={[styles.street, styles.streetHorizontal, { top: 200 }]} />
+              <View style={[styles.street, styles.streetHorizontal, { top: 280 }]} />
+              
+              <View style={[styles.street, styles.streetVertical, { left: 60 }]} />
+              <View style={[styles.street, styles.streetVertical, { left: 140 }]} />
+              <View style={[styles.street, styles.streetVertical, { left: 260 }]} />
+              <View style={[styles.street, styles.streetVertical, { left: 340 }]} />
+              
+              {/* Gebäude-Blöcke */}
+              <View style={[styles.building, { top: 60, left: 110, width: 80, height: 50 }]} />
+              <View style={[styles.building, { top: 60, left: 210, width: 80, height: 50 }]} />
+              <View style={[styles.building, { top: 170, left: 110, width: 80, height: 60 }]} />
+              <View style={[styles.building, { top: 170, left: 270, width: 60, height: 60 }]} />
+              
+              {/* Park/Grünfläche */}
+              <View style={[styles.park, { top: 130, left: 210, width: 50, height: 50 }]} />
             </View>
             
-            {/* Vorfall-Marker */}
-            <View style={[styles.incidentMarker, { top: 110, left: 150 }]}>
-              <Ionicons name="warning" size={24} color="#FF4444" />
-              <Text style={styles.markerLabel}>🚨 VORFALL</Text>
+            {/* GROSSER Vorfall-Marker (sehr auffällig) */}
+            <View style={[styles.incidentMarkerLarge, { top: 140, left: 180 }]}>
+              <View style={styles.incidentPulse} />
+              <Ionicons name="warning" size={32} color="#FFFFFF" />
+              <Text style={styles.incidentLabel}>🚨 EINSATZ</Text>
+              <Text style={styles.incidentSubLabel}>{incident?.title?.substring(0, 10) || 'VORFALL'}</Text>
             </View>
             
-            {/* Polizeistation */}
-            <View style={[styles.policeMarker, { top: 170, left: 220 }]}>
-              <Ionicons name="shield" size={20} color="#2196F3" />
-              <Text style={styles.markerLabel}>👮 STATION</Text>
+            {/* Polizeistation (deutlich erkennbar) */}
+            <View style={[styles.policeStationLarge, { top: 200, left: 280 }]}>
+              <Ionicons name="shield" size={28} color="#FFFFFF" />
+              <Text style={styles.stationLabel}>👮 REVIER</Text>
             </View>
             
-            {/* Standort-Info */}
-            <View style={styles.locationInfo}>
-              <Text style={styles.locationText}>📍 Schwelm Zentrum</Text>
-              <Text style={styles.coordinatesText}>51.2878°N, 7.3372°O</Text>
+            {/* Polizeifahrzeuge (beweglich) */}
+            <View style={[styles.policeVehicle, { top: 110, left: 150 }]}>
+              <Ionicons name="car-sport" size={20} color="#FFFFFF" />
+              <Text style={styles.vehicleLabel}>FUNK 1</Text>
             </View>
-          </View>
-          
-          {/* Karten-Details */}
-          <View style={styles.mapDetails}>
-            <Text style={[styles.mapTitle, { color: colors.text }]}>
-              📍 {incident?.title || 'Vorfall-Standort'}
-            </Text>
-            <Text style={[styles.mapAddress, { color: colors.textMuted }]}>
-              🏢 {incident?.address || incident?.location || 'Adresse nicht verfügbar'}
-            </Text>
-            <Text style={[styles.priorityText, { 
-              color: incident?.priority === 'high' ? '#FF4444' : 
-                     incident?.priority === 'medium' ? '#FF9500' : '#00C851'
-            }]}>
-              ⚠️ Priorität: {incident?.priority === 'high' ? '🚨 HOCH' : 
-                            incident?.priority === 'medium' ? '⚠️ MITTEL' : 
-                            '✅ NIEDRIG'}
-            </Text>
+            
+            <View style={[styles.policeVehicle, { top: 180, left: 320 }]}>
+              <Ionicons name="car-sport" size={20} color="#FFFFFF" />
+              <Text style={styles.vehicleLabel}>FUNK 2</Text>
+            </View>
+            
+            {/* Stadtkern-Label */}
+            <View style={styles.cityLabel}>
+              <Text style={styles.cityLabelText}>🏛️ SCHWELM ZENTRUM</Text>
+              <Text style={styles.coordsLabel}>51.2878°N • 7.3372°O</Text>
+            </View>
+            
+            {/* Entfernungsanzeige */}
+            <View style={styles.distanceInfo}>
+              <Text style={styles.distanceText}>📍 Entfernung zum Einsatzort:</Text>
+              <Text style={styles.distanceValue}>🚔 Funk 1: ~200m</Text>
+              <Text style={styles.distanceValue}>🚔 Funk 2: ~350m</Text>
+            </View>
           </View>
         </View>
 
