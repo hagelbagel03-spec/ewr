@@ -2045,7 +2045,7 @@ const MainApp = () => {
     return newChat;
   };
 
-  const deleteChat = (chatId) => {
+  const deletePrivateChat = (chatId) => {
     setPrivateChats(prev => prev.filter(chat => chat.id !== chatId));
     if (selectedChat?.id === chatId) {
       setSelectedChat(null);
