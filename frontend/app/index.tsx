@@ -4320,6 +4320,129 @@ const MainApp = () => {
   // Render chat screen function
   // Chat Screen mit Channels + Private Chats
   const renderChatScreen = () => {
+    // CHANNEL-CHAT VIEW (Allgemein, Dienst, Notfall)
+    if (selectedChannel) {
+      const channelInfo = {
+        'general': { name: '# Allgemein', color: '#4CAF50', emoji: '👥' },
+        'service': { name: '# Dienst', color: '#FF9800', emoji: '🛡️' },
+        'emergency': { name: '# Notfall', color: '#F44336', emoji: '🚨' }
+      };
+      
+      const channel = channelInfo[selectedChannel];
+      
+      return (
+        <View style={dynamicStyles.container}>
+          {/* Channel Header */}
+          <View style={[dynamicStyles.modernChatHeader, { backgroundColor: channel.color + '20' }]}>
+            <TouchableOpacity 
+              style={dynamicStyles.backButton}
+              onPress={() => setSelectedChannel(null)}
+            >
+              <Ionicons name="arrow-back" size={24} color={channel.color} />
+            </TouchableOpacity>
+            
+            <View style={dynamicStyles.chatHeaderInfo}>
+              <View style={[dynamicStyles.chatHeaderAvatar, { backgroundColor: channel.color }]}>
+                <Text style={{ fontSize: 18, color: '#FFFFFF' }}>{channel.emoji}</Text>
+              </View>
+              <View>
+                <Text style={[dynamicStyles.chatHeaderName, { color: channel.color }]}>
+                  {channel.name}
+                </Text>
+                <Text style={dynamicStyles.chatHeaderStatus}>
+                  {usersByStatus.filter(u => u.status === 'Im Dienst').length} Beamte online
+                </Text>
+              </View>
+            </View>
+            
+            <TouchableOpacity style={dynamicStyles.optionsButton}>
+              <Ionicons name="information-circle" size={20} color={channel.color} />
+            </TouchableOpacity>
+          </View>
+
+          {/* Channel Messages */}
+          <ScrollView 
+            style={dynamicStyles.messagesArea}
+            contentContainerStyle={{ paddingBottom: 20 }}
+            data-chat-scroll
+          >
+            {(channelMessages[selectedChannel] || []).length === 0 ? (
+              <View style={dynamicStyles.emptyChat}>
+                <Text style={{ fontSize: 48, marginBottom: 16 }}>{channel.emoji}</Text>
+                <Text style={dynamicStyles.emptyChatText}>Keine Nachrichten in {channel.name}</Text>
+                <Text style={dynamicStyles.emptyChatSubtext}>
+                  Schreiben Sie die erste Nachricht in diesem Channel
+                </Text>
+              </View>
+            ) : (
+              (channelMessages[selectedChannel] || []).map((message, index) => {
+                const isMyMessage = message.sender === user?.username;
+                return (
+                  <View key={index} style={[
+                    dynamicStyles.modernMessageBubble,
+                    isMyMessage ? dynamicStyles.myMessageBubble : dynamicStyles.otherMessageBubble
+                  ]}>
+                    {!isMyMessage && (
+                      <Text style={dynamicStyles.messageSenderName}>
+                        👮 {message.sender}
+                      </Text>
+                    )}
+                    <Text style={[
+                      dynamicStyles.modernMessageText,
+                      isMyMessage ? dynamicStyles.myMessageText : dynamicStyles.otherMessageText
+                    ]}>
+                      {message.content}
+                    </Text>
+                    <Text style={[
+                      dynamicStyles.modernMessageTime,
+                      isMyMessage ? dynamicStyles.myMessageTime : dynamicStyles.otherMessageTime
+                    ]}>
+                      {new Date(message.timestamp || message.created_at).toLocaleTimeString('de-DE', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </Text>
+                  </View>
+                );
+              })
+            )}
+          </ScrollView>
+
+          {/* Channel Message Input */}
+          <View style={dynamicStyles.modernMessageInput}>
+            <View style={dynamicStyles.inputContainer}>
+              <TextInput
+                style={dynamicStyles.textInput}
+                value={newMessage}
+                onChangeText={setNewMessage}
+                placeholder={`Nachricht in ${channel.name} schreiben...`}
+                placeholderTextColor={colors.textMuted}
+                multiline
+                maxLength={500}
+              />
+              <TouchableOpacity 
+                style={[
+                  dynamicStyles.modernSendButton,
+                  newMessage.trim() ? 
+                    [dynamicStyles.sendButtonActive, { backgroundColor: channel.color }] : 
+                    dynamicStyles.sendButtonInactive
+                ]}
+                onPress={() => {
+                  sendChannelMessage(selectedChannel);
+                }}
+                disabled={!newMessage.trim()}
+              >
+                <Ionicons 
+                  name="send" 
+                  size={20} 
+                  color={newMessage.trim() ? "#FFFFFF" : colors.textMuted} 
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
+    }
     // EINZELNER CHAT-VIEW (wenn selectedChat aktiv ist)
     if (selectedChat) {
       return (
