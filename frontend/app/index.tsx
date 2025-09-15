@@ -4338,7 +4338,7 @@ const MainApp = () => {
                   // Zeige Benutzerinfo bei Klick
                   Alert.alert(
                     '👤 ' + officer.username,
-                    `Abteilung: ${officer.department || 'Allgemein'}\nRang: ${officer.rank || 'Beamter'}\nStatus: ${officer.status || 'Im Dienst'}\nDienstnummer: ${officer.badge_number || 'N/A'}`,
+                    `Abteilung: ${officer.department || 'Allgemein'}\nRang: ${officer.rank || 'Beamter'}\nStatus: ${officer.status || 'Im Dienst'}\nDienstnummer: ${officer.service_number || 'N/A'}`,
                     [{ text: 'OK' }]
                   );
                 }}
