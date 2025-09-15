@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../contexts/ThemeContext';
 
 const GoogleMapsView = ({ incident }) => {
-  const { colors } = useTheme();
+  // Fixed colors instead of theme context
+  const colors = {
+    text: '#1a1a1a',
+    textMuted: '#6c757d',
+    background: '#ffffff',
+    surface: '#f8f9fa',
+    border: '#e9ecef',
+    primary: '#2196F3'
+  };
   const [officers, setOfficers] = useState([]);
   const [loadError, setLoadError] = useState(false);
 
