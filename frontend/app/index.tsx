@@ -1571,11 +1571,6 @@ const MainApp = () => {
     setShowAllMessagesModal(true);
   };
 
-  // Open all incidents modal
-  const openAllIncidentsModal = () => {
-    setShowAllIncidentsModal(true);
-  };
-
   // Load all messages
   const loadAllMessages = async () => {
     try {
