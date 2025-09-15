@@ -5937,6 +5937,13 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
+      {/* Incident Map Modal */}
+      <IncidentMapModal 
+        visible={showIncidentMap}
+        incident={selectedIncident}
+        onClose={() => setShowIncidentMap(false)}
+      />
+
       {/* Incident Detail Modal */}
       <Modal
         visible={showIncidentDetailModal}
