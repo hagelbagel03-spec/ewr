@@ -75,13 +75,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
+    padding: 16,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
   },
   
   headerIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#2196F3' + '15',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#2196F3',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
@@ -92,33 +97,74 @@ const styles = StyleSheet.create({
   },
   
   modernTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
-    color: '#1F2937',
+    color: '#1a1a1a',
     marginBottom: 4,
   },
   
   modernSubtitle: {
     fontSize: 14,
-    color: '#6B7280',
+    color: '#6c757d',
     lineHeight: 20,
   },
-  
-  loadingText: {
+
+  mapPlaceholder: {
+    width: '100%',
+    height: 300,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#e9ecef',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    marginBottom: 16,
+  },
+
+  mapIcon: {
+    marginBottom: 16,
+  },
+
+  mapTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
     textAlign: 'center',
+  },
+
+  mapAddress: {
     fontSize: 16,
-    padding: 40,
-    color: '#666',
+    marginBottom: 8,
+    textAlign: 'center',
+    paddingHorizontal: 20,
   },
-  mapLegend: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 8,
-    paddingHorizontal: 16,
-  },
-  legendItem: {
+
+  mapInfo: {
     fontSize: 12,
-    color: '#666',
+    marginBottom: 4,
+    textAlign: 'center',
+    opacity: 0.7,
+  },
+
+  mapLegend: {
+    backgroundColor: '#f8f9fa',
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
+  },
+
+  legendItem: {
+    fontSize: 14,
+    marginBottom: 8,
+    paddingLeft: 8,
+  },
+
+  loadingText: {
+    fontSize: 16,
+    color: '#6c757d',
+    textAlign: 'center',
   },
 });
 
