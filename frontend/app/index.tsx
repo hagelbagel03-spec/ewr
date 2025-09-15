@@ -4317,6 +4317,55 @@ const MainApp = () => {
     </ScrollView>
   );
 
+  // Send Channel Message Function
+  const sendChannelMessage = async (channel) => {
+    if (!newMessage.trim()) return;
+
+    try {
+      const messageData = {
+        content: newMessage.trim(),
+        sender: user?.username || 'Unbekannt',
+        channel: channel,
+        timestamp: new Date().toISOString(),
+        user_id: user?.id
+      };
+
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      // Sende an Backend
+      await axios.post(`${API_URL}/api/messages`, messageData, config);
+      
+      // Füge zu Channel Messages hinzu
+      setChannelMessages(prev => ({
+        ...prev,
+        [channel]: [...(prev[channel] || []), {
+          ...messageData,
+          id: Date.now(),
+          created_at: new Date().toISOString()
+        }]
+      }));
+      
+      // Reset input
+      setNewMessage('');
+      
+      console.log(`✅ Channel message sent to ${channel}`);
+      
+      // Auto-scroll
+      setTimeout(() => {
+        const scrollView = document.querySelector('[data-chat-scroll]');
+        if (scrollView) {
+          scrollView.scrollToEnd({ animated: true });
+        }
+      }, 100);
+      
+    } catch (error) {
+      console.error('❌ Error sending channel message:', error);
+      window.alert('❌ Nachricht konnte nicht gesendet werden');
+    }
+  };
+
   // Render chat screen function
   // Chat Screen mit Channels + Private Chats
   const renderChatScreen = () => {
