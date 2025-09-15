@@ -6520,9 +6520,8 @@ Beispielinhalt:
                     { borderLeftColor: getPriorityColor(incident.priority) }
                   ]}
                   onPress={() => {
+                    // Bleibe in der Übersicht, zeige nur erweiterte Info
                     setSelectedIncident(incident);
-                    setShowAllIncidentsModal(false);
-                    setShowIncidentDetailModal(true);
                   }}
                 >
                   <View style={[dynamicStyles.incidentIcon, 
