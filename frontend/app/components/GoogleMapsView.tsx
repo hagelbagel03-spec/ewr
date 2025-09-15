@@ -109,10 +109,26 @@ const GoogleMapsView = ({ incident, user, token }) => {
     const mapElement = document.getElementById('google-map');
     if (!mapElement || !window.google) return;
 
-    const incidentLocation = {
-      lat: incident.location.lat,
-      lng: incident.location.lng
-    };
+    // Check if incident has valid location data
+    let incidentLocation;
+    if (incident && incident.location && incident.location.lat && incident.location.lng) {
+      incidentLocation = {
+        lat: parseFloat(incident.location.lat),
+        lng: parseFloat(incident.location.lng)
+      };
+    } else if (incident && incident.coordinates) {
+      incidentLocation = {
+        lat: parseFloat(incident.coordinates.lat),
+        lng: parseFloat(incident.coordinates.lng)
+      };
+    } else {
+      // Fallback: Schwelm center coordinates
+      console.log('⚠️ No valid coordinates found for incident, using Schwelm center');
+      incidentLocation = {
+        lat: 51.2878,
+        lng: 7.3372
+      };
+    }
 
     const mapOptions = {
       center: incidentLocation,
