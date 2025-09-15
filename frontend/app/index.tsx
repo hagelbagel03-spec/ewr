@@ -702,6 +702,15 @@ const MainApp = () => {
   const [showIncidentMap, setShowIncidentMap] = useState(false);
   const [showAllIncidentsModal, setShowAllIncidentsModal] = useState(false);
   
+  // Incident Form States
+  const [incidentFormData, setIncidentFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    priority: 'medium'
+  });
+  const [submittingIncident, setSubmittingIncident] = useState(false);
+  
   // Private Messaging States
   const [showPrivateMessageModal, setShowPrivateMessageModal] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
