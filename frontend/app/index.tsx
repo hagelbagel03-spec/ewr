@@ -4169,7 +4169,7 @@ const MainApp = () => {
                 style={[dynamicStyles.chatOption, { borderTopColor: colors.border }]}
                 onPress={() => {
                   if (window.confirm(`Chat "${selectedChat.name}" wirklich löschen?`)) {
-                    deleteChat(selectedChat.id);
+                    deletePrivateChat(selectedChat.id);
                   }
                 }}
               >
