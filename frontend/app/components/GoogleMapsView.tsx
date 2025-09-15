@@ -34,21 +34,57 @@ const GoogleMapsView = ({ incident }) => {
         </View>
         
         <View style={styles.mapPlaceholder}>
-          <View style={styles.mapIcon}>
-            <Ionicons name="location" size={64} color="#2196F3" />
+          {/* Visuelle Karten-Darstellung */}
+          <View style={styles.mapContainer}>
+            {/* Straßen Grid */}
+            <View style={styles.streetsGrid}>
+              {/* Horizontale Straßen */}
+              <View style={[styles.street, styles.streetHorizontal, { top: 60 }]} />
+              <View style={[styles.street, styles.streetHorizontal, { top: 120 }]} />
+              <View style={[styles.street, styles.streetHorizontal, { top: 180 }]} />
+              
+              {/* Vertikale Straßen */}
+              <View style={[styles.street, styles.streetVertical, { left: 80 }]} />
+              <View style={[styles.street, styles.streetVertical, { left: 160 }]} />
+              <View style={[styles.street, styles.streetVertical, { left: 240 }]} />
+            </View>
+            
+            {/* Vorfall-Marker */}
+            <View style={[styles.incidentMarker, { top: 110, left: 150 }]}>
+              <Ionicons name="warning" size={24} color="#FF4444" />
+              <Text style={styles.markerLabel}>🚨 VORFALL</Text>
+            </View>
+            
+            {/* Polizeistation */}
+            <View style={[styles.policeMarker, { top: 170, left: 220 }]}>
+              <Ionicons name="shield" size={20} color="#2196F3" />
+              <Text style={styles.markerLabel}>👮 STATION</Text>
+            </View>
+            
+            {/* Standort-Info */}
+            <View style={styles.locationInfo}>
+              <Text style={styles.locationText}>📍 Schwelm Zentrum</Text>
+              <Text style={styles.coordinatesText}>51.2878°N, 7.3372°O</Text>
+            </View>
           </View>
-          <Text style={[styles.mapTitle, { color: colors.text }]}>
-            🏢 Standort-Informationen
-          </Text>
-          <Text style={[styles.mapAddress, { color: colors.textMuted }]}>
-            📍 {incident?.address || incident?.location || 'Adresse nicht verfügbar'}
-          </Text>
-          <Text style={[styles.mapInfo, { color: colors.textMuted }]}>
-            🗺️ Koordinaten: Schwelm Zentrum
-          </Text>
-          <Text style={[styles.mapInfo, { color: colors.textMuted }]}>
-            📱 Interaktive Karte nicht verfügbar
-          </Text>
+          
+          {/* Karten-Details */}
+          <View style={styles.mapDetails}>
+            <Text style={[styles.mapTitle, { color: colors.text }]}>
+              📍 {incident?.title || 'Vorfall-Standort'}
+            </Text>
+            <Text style={[styles.mapAddress, { color: colors.textMuted }]}>
+              🏢 {incident?.address || incident?.location || 'Adresse nicht verfügbar'}
+            </Text>
+            <Text style={[styles.priorityText, { 
+              color: incident?.priority === 'high' ? '#FF4444' : 
+                     incident?.priority === 'medium' ? '#FF9500' : '#00C851'
+            }]}>
+              ⚠️ Priorität: {incident?.priority === 'high' ? '🚨 HOCH' : 
+                            incident?.priority === 'medium' ? '⚠️ MITTEL' : 
+                            '✅ NIEDRIG'}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.mapLegend}>
