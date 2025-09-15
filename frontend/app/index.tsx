@@ -5988,13 +5988,7 @@ Beispielinhalt:
               <Ionicons name="close" size={24} color={colors.text} />
             </TouchableOpacity>
             <Text style={dynamicStyles.modalTitle}>🚨 Vorfall Details</Text>
-            <TouchableOpacity 
-              onPress={() => showIncidentOnMap(selectedIncident)}
-              style={dynamicStyles.editHeaderButton}
-            >
-              <Ionicons name="map" size={20} color={colors.primary} />
-              <Text style={[dynamicStyles.saveButtonText, { color: colors.primary }]}>Karte</Text>
-            </TouchableOpacity>
+            <View style={{ width: 40 }} />
           </View>
 
           <ScrollView style={dynamicStyles.modalContent}>
@@ -6030,6 +6024,12 @@ Beispielinhalt:
                       })}
                     </Text>
                   </View>
+                </View>
+
+                {/* Karte direkt im Detail Modal */}
+                <View style={dynamicStyles.detailCard}>
+                  <Text style={dynamicStyles.detailSectionTitle}>🗺️ Standort-Karte</Text>
+                  <GoogleMapsView incident={selectedIncident} />
                 </View>
 
                 <View style={dynamicStyles.detailCard}>
