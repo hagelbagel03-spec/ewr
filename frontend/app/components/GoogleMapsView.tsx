@@ -170,27 +170,32 @@ const GoogleMapsView = ({ incident }) => {
           <Ionicons name="map" size={32} color="#2196F3" />
         </View>
         <View style={styles.headerTextContainer}>
-          <Text style={styles.modernTitle}>🗺️ Google Maps</Text>
+          <Text style={styles.modernTitle}>🗺️ Standort-Karte</Text>
           <Text style={styles.modernSubtitle}>
             {incident?.title || 'Vorfall-Position'}
           </Text>
         </View>
       </View>
 
-      {/* Try to render real Google Maps */}
-      <div 
-        id="google-map-real" 
-        style={{ 
-          width: '100%', 
-          height: 300,
-          borderRadius: 12,
-          border: '2px solid #e9ecef',
-          display: mapLoaded ? 'block' : 'none'
-        }}
-      />
-
-      {/* Fallback if Google Maps doesn't load */}
-      {!mapLoaded && renderFallback()}
+      {/* OpenStreetMap Embed (funktioniert ohne API Key) */}
+      <div style={{
+        width: '100%',
+        height: 300,
+        borderRadius: 12,
+        border: '2px solid #e9ecef',
+        overflow: 'hidden'
+      }}>
+        <iframe
+          width="100%"
+          height="300"
+          frameBorder="0"
+          scrolling="no"
+          marginHeight="0"
+          marginWidth="0"
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.lng - 0.01},${coordinates.lat - 0.01},${coordinates.lng + 0.01},${coordinates.lat + 0.01}&layer=mapnik&marker=${coordinates.lat},${coordinates.lng}`}
+          style={{ border: 0 }}
+        />
+      </div>
 
       <View style={styles.mapInfo}>
         <Text style={[styles.infoText, { color: colors.text }]}>
@@ -198,6 +203,15 @@ const GoogleMapsView = ({ incident }) => {
         </Text>
         <Text style={[styles.infoText, { color: colors.textMuted }]}>
           🌍 {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}
+        </Text>
+        <Text 
+          style={[styles.infoText, { color: colors.primary, textDecorationLine: 'underline' }]}
+          onPress={() => {
+            const url = `https://maps.google.com/?q=${coordinates.lat},${coordinates.lng}`;
+            window.open(url, '_blank');
+          }}
+        >
+          📱 In Google Maps öffnen
         </Text>
       </View>
     </View>
