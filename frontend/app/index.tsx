@@ -6195,8 +6195,6 @@ Beispielinhalt:
                   <Text style={dynamicStyles.detailSectionTitle}>🗺️ Standort-Karte</Text>
                   <GoogleMapsView incident={selectedIncident} />
                 </View>
-              </>
-            )}
 
                 <View style={dynamicStyles.detailCard}>
                   <Text style={dynamicStyles.detailSectionTitle}>📊 Status & Priorität</Text>
