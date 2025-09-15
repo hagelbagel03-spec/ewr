@@ -6026,45 +6026,15 @@ Beispielinhalt:
           </View>
 
           <ScrollView style={dynamicStyles.modalContent}>
+            {/* Nur die Karte, keine Text-Details */}
             {selectedIncident && (
-              <>
-                <View style={dynamicStyles.detailCard}>
-                  <Text style={dynamicStyles.detailSectionTitle}>📋 Vorfall-Information</Text>
-                  
-                  <View style={dynamicStyles.detailRow}>
-                    <Text style={dynamicStyles.detailLabel}>🚨 Titel:</Text>
-                    <Text style={dynamicStyles.detailValue}>{selectedIncident.title}</Text>
-                  </View>
-
-                  <View style={dynamicStyles.detailRow}>
-                    <Text style={dynamicStyles.detailLabel}>📝 Beschreibung:</Text>
-                    <Text style={dynamicStyles.detailDescription}>{selectedIncident.description}</Text>
-                  </View>
-
-                  <View style={dynamicStyles.detailRow}>
-                    <Text style={dynamicStyles.detailLabel}>📍 Adresse:</Text>
-                    <Text style={dynamicStyles.detailValue}>{selectedIncident.address}</Text>
-                  </View>
-
-                  <View style={dynamicStyles.detailRow}>
-                    <Text style={dynamicStyles.detailLabel}>🕒 Gemeldet:</Text>
-                    <Text style={dynamicStyles.detailValue}>
-                      {new Date(selectedIncident.created_at).toLocaleDateString('de-DE', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Karte direkt im Detail Modal */}
-                <View style={dynamicStyles.detailCard}>
-                  <Text style={dynamicStyles.detailSectionTitle}>🗺️ Standort-Karte</Text>
-                  <GoogleMapsView incident={selectedIncident} />
-                </View>
+              <View style={{ padding: 16 }}>
+                <Text style={{ fontSize: 20, fontWeight: '700', marginBottom: 16, color: colors.text, textAlign: 'center' }}>
+                  🗺️ {selectedIncident.title}
+                </Text>
+                <GoogleMapsView incident={selectedIncident} />
+              </View>
+            )}
 
                 <View style={dynamicStyles.detailCard}>
                   <Text style={dynamicStyles.detailSectionTitle}>📊 Status & Priorität</Text>
