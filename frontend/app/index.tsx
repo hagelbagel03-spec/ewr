@@ -1388,6 +1388,77 @@ const MainApp = () => {
     setShowIncidentMap(true);
   };
 
+  // Submit Incident Function
+  const submitIncident = async () => {
+    // Validation
+    if (!incidentFormData.title.trim()) {
+      window.alert('❌ Fehler\n\nBitte geben Sie einen Vorfall-Titel ein.');
+      return;
+    }
+    
+    if (!incidentFormData.description.trim()) {
+      window.alert('❌ Fehler\n\nBitte geben Sie eine Beschreibung ein.');
+      return;
+    }
+    
+    if (!incidentFormData.location.trim()) {
+      window.alert('❌ Fehler\n\nBitte geben Sie einen Standort ein.');
+      return;
+    }
+
+    setSubmittingIncident(true);
+    
+    try {
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      const incidentData = {
+        title: incidentFormData.title.trim(),
+        description: incidentFormData.description.trim(),
+        location: incidentFormData.location.trim(),
+        address: incidentFormData.location.trim(),
+        priority: incidentFormData.priority,
+        status: 'open',
+        reported_by: user?.username || 'Unbekannt',
+        user_id: user?.id
+      };
+
+      console.log('📤 Submitting incident:', incidentData);
+      
+      const response = await axios.post(`${API_URL}/api/incidents`, incidentData, config);
+      
+      console.log('✅ Incident submitted successfully:', response.data);
+      
+      window.alert(`✅ Vorfall gemeldet!\n\n"${incidentFormData.title}" wurde erfolgreich gemeldet.`);
+      
+      // Reset form
+      setIncidentFormData({
+        title: '',
+        description: '',
+        location: '',
+        priority: 'medium'
+      });
+      
+      // Refresh incidents list
+      loadData();
+      
+    } catch (error) {
+      console.error('❌ Incident submission error:', error);
+      
+      let errorMessage = 'Unbekannter Fehler';
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      window.alert(`❌ Fehler beim Melden\n\nVorfall konnte nicht gemeldet werden.\nFehler: ${errorMessage}`);
+    } finally {
+      setSubmittingIncident(false);
+    }
+  };
+
   // Private Messaging Functions
   const sendPrivateMessage = async () => {
     if (!privateMessage.trim() || !selectedRecipient) return;
