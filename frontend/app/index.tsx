@@ -5178,7 +5178,6 @@ const MainApp = () => {
           </ScrollView>
         </View>
       );
-      case 'messages': return renderChatScreen();
       case 'berichte': return renderBerichteScreen();
       case 'team': return renderTeamScreen();
       case 'database': return renderDatabaseScreen();
