@@ -613,7 +613,21 @@ const IncidentMapModal = ({ visible, onClose, incident }) => {
           <View style={{ width: 40 }} />
         </View>
 
-        <GoogleMapsView incident={incident} />
+        {incident ? (
+          <GoogleMapsView incident={incident} />
+        ) : (
+          <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.background
+          }}>
+            <Ionicons name="warning" size={64} color={colors.textMuted} />
+            <Text style={{ color: colors.textMuted, marginTop: 16 }}>
+              Keine Vorfall-Daten verfügbar
+            </Text>
+          </View>
+        )}
 
         {incident && (
           <View style={dynamicStyles.incidentInfo}>
