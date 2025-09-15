@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 
   mapPlaceholder: {
     width: '100%',
-    height: 300,
+    height: 400, // Größer!
     backgroundColor: '#f8f9fa',
     borderRadius: 12,
     borderWidth: 2,
@@ -186,111 +186,223 @@ const styles = StyleSheet.create({
 
   mapContainer: {
     width: '100%',
-    height: 240,
-    backgroundColor: '#e8f5e8',
+    height: '100%',
+    backgroundColor: '#c8e6c9', // Hellgrün wie echte Karte
     position: 'relative',
   },
 
-  streetsGrid: {
+  cityBackground: {
     width: '100%',
     height: '100%',
     position: 'absolute',
+    backgroundColor: '#e8f5e8',
   },
 
+  // Hauptstraßen (dick und auffällig)
+  mainStreet: {
+    position: 'absolute',
+    backgroundColor: '#424242',
+    borderWidth: 1,
+    borderColor: '#212121',
+  },
+
+  mainStreetHorizontal: {
+    width: '100%',
+    height: 6,
+  },
+
+  mainStreetVertical: {
+    height: '100%',
+    width: 6,
+  },
+
+  // Nebenstraßen (dünner)
   street: {
     position: 'absolute',
-    backgroundColor: '#d6d6d6',
+    backgroundColor: '#757575',
   },
 
   streetHorizontal: {
     width: '100%',
-    height: 3,
+    height: 2,
   },
 
   streetVertical: {
     height: '100%',
-    width: 3,
+    width: 2,
   },
 
-  incidentMarker: {
+  // Gebäude
+  building: {
+    position: 'absolute',
+    backgroundColor: '#bdbdbd',
+    borderWidth: 1,
+    borderColor: '#9e9e9e',
+    borderRadius: 2,
+  },
+
+  // Park/Grünfläche
+  park: {
+    position: 'absolute',
+    backgroundColor: '#4caf50',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#388e3c',
+  },
+
+  // GROSSER Vorfall-Marker (sehr auffällig!)
+  incidentMarkerLarge: {
     position: 'absolute',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 8,
-    borderWidth: 2,
-    borderColor: '#FF4444',
+    backgroundColor: '#FF1744',
+    borderRadius: 25,
+    padding: 12,
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 10,
+    minWidth: 80,
+    minHeight: 80,
   },
 
-  policeMarker: {
+  incidentPulse: {
     position: 'absolute',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    padding: 6,
-    borderWidth: 2,
-    borderColor: '#2196F3',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#FF1744',
+    opacity: 0.3,
+    top: -10,
+    left: -10,
   },
 
-  markerLabel: {
-    fontSize: 8,
+  incidentLabel: {
+    fontSize: 10,
     fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginTop: 4,
+    textAlign: 'center',
+  },
+
+  incidentSubLabel: {
+    fontSize: 8,
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginTop: 2,
+  },
+
+  // Große Polizeistation
+  policeStationLarge: {
+    position: 'absolute',
+    alignItems: 'center',
+    backgroundColor: '#1976D2',
+    borderRadius: 20,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
+    minWidth: 60,
+    minHeight: 60,
+  },
+
+  stationLabel: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
     marginTop: 2,
     textAlign: 'center',
   },
 
-  locationInfo: {
+  // Polizeifahrzeuge
+  policeVehicle: {
     position: 'absolute',
-    top: 10,
-    left: 10,
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    alignItems: 'center',
+    backgroundColor: '#0D47A1',
+    borderRadius: 15,
     padding: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 4,
+    minWidth: 50,
   },
 
-  locationText: {
-    fontSize: 12,
+  vehicleLabel: {
+    fontSize: 8,
     fontWeight: 'bold',
-    color: '#333',
-  },
-
-  coordinatesText: {
-    fontSize: 10,
-    color: '#666',
+    color: '#FFFFFF',
     marginTop: 2,
   },
 
-  mapDetails: {
-    padding: 16,
-    backgroundColor: '#ffffff',
+  // Stadtkern-Label
+  cityLabel: {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#2196F3',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
   },
 
-  mapTitle: {
-    fontSize: 16,
+  cityLabelText: {
+    fontSize: 14,
     fontWeight: 'bold',
+    color: '#1976D2',
+    textAlign: 'center',
+  },
+
+  coordsLabel: {
+    fontSize: 10,
+    color: '#424242',
+    marginTop: 2,
+    textAlign: 'center',
+  },
+
+  // Entfernungsanzeige
+  distanceInfo: {
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+
+  distanceText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#2E7D32',
     marginBottom: 4,
   },
 
-  mapAddress: {
-    fontSize: 14,
-    marginBottom: 4,
-  },
-
-  priorityText: {
-    fontSize: 14,
-    fontWeight: 'bold',
+  distanceValue: {
+    fontSize: 10,
+    color: '#424242',
+    marginBottom: 2,
   },
 
   mapLegend: {
@@ -299,12 +411,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#e9ecef',
+    marginTop: 16,
   },
 
   legendItem: {
     fontSize: 14,
     marginBottom: 8,
     paddingLeft: 8,
+    color: '#495057',
   },
 
   loadingText: {
