@@ -5101,20 +5101,6 @@ const MainApp = () => {
     );
   };
 
-  const renderMessagesScreen = () => (
-    <View style={dynamicStyles.content}>
-      <View style={dynamicStyles.screenHeader}>
-        <Ionicons name="chatbubbles" size={28} color={colors.primary} />
-        <Text style={dynamicStyles.screenTitle}>Nachrichten</Text>
-      </View>
-      <RealTimeMessages 
-        user={user}
-        token={token}
-        selectedChannel="general"
-      />
-    </View>
-  );
-
   const renderIncidentScreen = () => {
     console.log('🔍 Rendering incident screen...');
     console.log('🔍 User:', user);
