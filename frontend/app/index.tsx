@@ -3444,7 +3444,191 @@ const MainApp = () => {
       lineHeight: 20,
     },
 
-    // Chat Management Styles
+    // Channel System Styles
+    fixedChannelsSection: {
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    privateChatSection: {
+      flex: 1,
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+    },
+
+    channelItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      borderRadius: 8,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    fixedChannel: {
+      backgroundColor: colors.background,
+    },
+
+    emergencyChannel: {
+      borderColor: '#F44336',
+      backgroundColor: '#F44336' + '10',
+    },
+
+    channelIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+
+    channelInfo: {
+      flex: 1,
+    },
+
+    channelName: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 2,
+    },
+
+    channelDescription: {
+      fontSize: 12,
+      color: colors.textMuted,
+      lineHeight: 16,
+    },
+
+    channelActions: {
+      alignItems: 'center',
+    },
+
+    newChatButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.primary,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 20,
+    },
+
+    newChatButtonText: {
+      color: '#FFFFFF',
+      fontSize: 12,
+      fontWeight: '600',
+      marginLeft: 4,
+    },
+
+    chatListItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      borderRadius: 8,
+      marginBottom: 8,
+      backgroundColor: colors.background,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    chatAvatar: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      backgroundColor: colors.primary + '20',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+
+    chatInfo: {
+      flex: 1,
+    },
+
+    chatName: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 2,
+    },
+
+    chatLastMessage: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 2,
+    },
+
+    chatTime: {
+      fontSize: 10,
+      color: colors.textMuted,
+      marginBottom: 4,
+    },
+
+    chatActions: {
+      alignItems: 'flex-end',
+    },
+
+    unreadBadge: {
+      backgroundColor: colors.primary,
+      borderRadius: 8,
+      minWidth: 16,
+      height: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 4,
+    },
+
+    unreadText: {
+      color: '#FFFFFF',
+      fontSize: 10,
+      fontWeight: '600',
+    },
+
+    emptyState: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 40,
+    },
+
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.textMuted,
+      marginTop: 12,
+      marginBottom: 4,
+    },
+
+    emptySubtext: {
+      fontSize: 12,
+      color: colors.textMuted,
+      textAlign: 'center',
+      paddingHorizontal: 20,
+    },
+
+    chatsList: {
+      flex: 1,
+    },
     chatHeader: {
       flexDirection: 'row',
       alignItems: 'center',
