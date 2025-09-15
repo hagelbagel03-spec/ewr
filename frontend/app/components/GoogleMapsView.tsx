@@ -513,6 +513,66 @@ const styles = StyleSheet.create({
     color: '#6c757d',
     textAlign: 'center',
   },
+
+  // New styles for Google Maps integration
+  mapFallback: {
+    width: '100%',
+    height: 300,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#e9ecef',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    marginBottom: 16,
+  },
+
+  fallbackTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+
+  fallbackText: {
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+
+  mapsLinkContainer: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#e3f2fd',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#2196F3',
+  },
+
+  mapsLink: {
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    marginTop: 4,
+  },
+
+  mapInfo: {
+    backgroundColor: '#f8f9fa',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
+    marginTop: 8,
+  },
+
+  infoText: {
+    fontSize: 14,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
 });
 
 export default GoogleMapsView;
