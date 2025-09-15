@@ -6444,6 +6444,102 @@ Beispielinhalt:
           </ScrollView>
         </SafeAreaView>
       </Modal>
+
+      {/* All Incidents Modal */}
+      <Modal
+        visible={showAllIncidentsModal}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowAllIncidentsModal(false)}
+      >
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.modalHeader}>
+            <TouchableOpacity onPress={() => setShowAllIncidentsModal(false)}>
+              <Ionicons name="close" size={24} color={colors.text} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.modalTitle}>
+              🚨 Alle Vorfälle ({recentIncidents.length})
+            </Text>
+            <TouchableOpacity onPress={() => loadData()}>
+              <Ionicons name="refresh" size={20} color={colors.primary} />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={dynamicStyles.modalContent}>
+            {recentIncidents.length === 0 ? (
+              <View style={dynamicStyles.emptyState}>
+                <Ionicons name="shield-checkmark" size={64} color={colors.primary} style={dynamicStyles.emptyIcon} />
+                <Text style={dynamicStyles.emptyText}>Keine aktuellen Vorfälle</Text>
+                <Text style={dynamicStyles.emptySubtext}>
+                  Derzeit sind keine Vorfälle gemeldet 🛡️
+                </Text>
+              </View>
+            ) : (
+              recentIncidents.map((incident, index) => (
+                <TouchableOpacity 
+                  key={incident.id || index} 
+                  style={[dynamicStyles.incidentCard, 
+                    { borderLeftColor: getPriorityColor(incident.priority) }
+                  ]}
+                  onPress={() => {
+                    setSelectedIncident(incident);
+                    setShowAllIncidentsModal(false);
+                    setShowIncidentDetailModal(true);
+                  }}
+                >
+                  <View style={[dynamicStyles.incidentIcon, 
+                    { backgroundColor: getPriorityColor(incident.priority) + '20' }
+                  ]}>
+                    <Ionicons name="warning" size={24} color={getPriorityColor(incident.priority)} />
+                  </View>
+                  <View style={dynamicStyles.incidentContent}>
+                    <Text style={dynamicStyles.incidentTitle}>
+                      {incident.title}
+                    </Text>
+                    <Text style={dynamicStyles.incidentTime}>
+                      🕒 {incident.created_at ? 
+                        new Date(incident.created_at).toLocaleString('de-DE') : 
+                        'Unbekannte Zeit'
+                      }
+                    </Text>
+                    <Text style={[dynamicStyles.incidentTime, { color: colors.textMuted }]}>
+                      📍 {incident.address || incident.location || 'Unbekannter Ort'}
+                    </Text>
+                    <Text style={[dynamicStyles.incidentTime, { color: colors.text }]} numberOfLines={2}>
+                      📝 {incident.description}
+                    </Text>
+                  </View>
+                  <View style={dynamicStyles.incidentActions}>
+                    <TouchableOpacity 
+                      style={[dynamicStyles.mapButton, { backgroundColor: getPriorityColor(incident.priority) }]}
+                      onPress={(e) => {
+                        e.stopPropagation();
+                        setSelectedIncident(incident);
+                        setShowAllIncidentsModal(false);
+                        setShowIncidentMap(true);
+                      }}
+                    >
+                      <Ionicons name="map" size={18} color="#FFFFFF" />
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      style={[dynamicStyles.mapButton, { backgroundColor: colors.secondary }]}
+                      onPress={(e) => {
+                        e.stopPropagation();
+                        setSelectedIncident(incident);
+                        setShowAllIncidentsModal(false);
+                        setShowIncidentDetailModal(true);
+                      }}
+                    >
+                      <Ionicons name="eye" size={18} color="#FFFFFF" />
+                    </TouchableOpacity>
+                    <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+                  </View>
+                </TouchableOpacity>
+              ))
+            )}
+          </ScrollView>
+        </SafeAreaView>
+      </Modal>
     </SafeAreaView>
   );
 };
