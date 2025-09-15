@@ -1407,12 +1407,13 @@ const MainApp = () => {
       const incidentData = {
         title: incidentFormData.title.trim(),
         description: incidentFormData.description.trim(),
-        location: incidentFormData.location.trim(),
-        address: incidentFormData.location.trim(),
         priority: incidentFormData.priority,
-        status: 'open',
-        reported_by: user?.username || 'Unbekannt',
-        user_id: user?.id
+        location: {
+          lat: 51.2878,  // Default: Schwelm coordinates
+          lng: 7.3372
+        },
+        address: incidentFormData.location.trim(),
+        images: []
       };
 
       console.log('📤 Submitting incident:', incidentData);
