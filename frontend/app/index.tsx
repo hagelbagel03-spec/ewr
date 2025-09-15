@@ -4134,187 +4134,147 @@ const MainApp = () => {
   );
 
   // Render chat screen function
-  // Chat Screen mit Chat-Management
+  // Chat Screen mit Channels + Private Chats
   const renderChatScreen = () => {
-    if (selectedChat) {
-      // Einzelner Chat-Verlauf
-      return (
-        <View style={dynamicStyles.container}>
-          <View style={dynamicStyles.chatHeader}>
-            <TouchableOpacity onPress={() => setSelectedChat(null)}>
-              <Ionicons name="arrow-back" size={24} color={colors.primary} />
-            </TouchableOpacity>
-            <Text style={dynamicStyles.chatHeaderTitle}>{selectedChat.name}</Text>
-            <TouchableOpacity onPress={() => setShowChatOptions(selectedChat.id)}>
-              <Ionicons name="ellipsis-vertical" size={24} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-
-          {/* Chat Options Modal */}
-          {showChatOptions === selectedChat.id && (
-            <View style={dynamicStyles.chatOptionsModal}>
-              <TouchableOpacity 
-                style={dynamicStyles.chatOption}
-                onPress={() => {
-                  setEditingChatName(selectedChat.id);
-                  setNewChatName(selectedChat.name);
-                  setShowChatOptions(null);
-                }}
-              >
-                <Ionicons name="create" size={20} color={colors.primary} />
-                <Text style={dynamicStyles.chatOptionText}>Name bearbeiten</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={[dynamicStyles.chatOption, { borderTopColor: colors.border }]}
-                onPress={() => {
-                  if (window.confirm(`Chat "${selectedChat.name}" wirklich löschen?`)) {
-                    deletePrivateChat(selectedChat.id);
-                  }
-                }}
-              >
-                <Ionicons name="trash" size={20} color="#FF4444" />
-                <Text style={[dynamicStyles.chatOptionText, { color: '#FF4444' }]}>Chat löschen</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={[dynamicStyles.chatOption, { borderTopColor: colors.border }]}
-                onPress={() => setShowChatOptions(null)}
-              >
-                <Text style={dynamicStyles.chatOptionText}>Abbrechen</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Chat Name Edit Modal */}
-          {editingChatName === selectedChat.id && (
-            <View style={dynamicStyles.editNameModal}>
-              <Text style={dynamicStyles.editNameTitle}>Chat umbenennen</Text>
-              <TextInput
-                style={dynamicStyles.editNameInput}
-                value={newChatName}
-                onChangeText={setNewChatName}
-                placeholder="Chat-Name eingeben..."
-                autoFocus
-              />
-              <View style={dynamicStyles.editNameButtons}>
-                <TouchableOpacity 
-                  style={[dynamicStyles.editNameButton, { backgroundColor: colors.textMuted }]}
-                  onPress={() => {
-                    setEditingChatName(null);
-                    setNewChatName('');
-                  }}
-                >
-                  <Text style={{ color: '#FFFFFF' }}>Abbrechen</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[dynamicStyles.editNameButton, { backgroundColor: colors.primary }]}
-                  onPress={() => updateChatName(selectedChat.id, newChatName)}
-                >
-                  <Text style={{ color: '#FFFFFF' }}>Speichern</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-
-          {/* Messages */}
-          <ScrollView style={dynamicStyles.messagesList}>
-            {selectedChat.messages.map((message, index) => (
-              <View key={index} style={[
-                dynamicStyles.messageCard,
-                message.sender === user?.username && dynamicStyles.ownMessage
-              ]}>
-                <Text style={dynamicStyles.messageSender}>
-                  {message.sender === user?.username ? '👤 Sie' : `👤 ${message.sender}`}
-                </Text>
-                <Text style={dynamicStyles.messageText}>{message.content}</Text>
-                <Text style={dynamicStyles.messageTime}>
-                  {new Date(message.timestamp).toLocaleString('de-DE')}
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-
-          {/* Message Input */}
-          <View style={dynamicStyles.messageInputContainer}>
-            <TextInput
-              style={dynamicStyles.messageInput}
-              value={newMessage}
-              onChangeText={setNewMessage}
-              placeholder="Nachricht schreiben..."
-              multiline
-            />
-            <TouchableOpacity 
-              style={[
-                dynamicStyles.sendButton,
-                !newMessage.trim() && dynamicStyles.sendButtonDisabled
-              ]}
-              onPress={() => sendMessage('private')}
-              disabled={!newMessage.trim()}
-            >
-              <Ionicons name="send" size={20} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
-
-    // Chat-Liste (Übersicht)
+    // Haupt-Chat-Übersicht mit Channels und Private Chats
     return (
       <View style={dynamicStyles.container}>
-        <View style={dynamicStyles.screenHeader}>
-          <Text style={dynamicStyles.screenTitle}>💬 Private Chats</Text>
+        <Text style={dynamicStyles.screenTitle}>💬 Nachrichten</Text>
+        
+        {/* FIXIERTE CHANNELS OBEN */}
+        <View style={dynamicStyles.fixedChannelsSection}>
+          <Text style={dynamicStyles.sectionTitle}>📢 Dienst-Channels</Text>
+          
+          {/* Allgemein Channel */}
           <TouchableOpacity 
-            style={dynamicStyles.newChatButton}
-            onPress={() => createPrivateChat()}
+            style={[dynamicStyles.channelItem, dynamicStyles.fixedChannel]}
+            onPress={() => {
+              setSelectedChannel('general');
+              setSelectedChat(null);
+            }}
           >
-            <Ionicons name="add" size={24} color="#FFFFFF" />
+            <View style={[dynamicStyles.channelIcon, { backgroundColor: '#4CAF50' }]}>
+              <Ionicons name="people" size={24} color="#FFFFFF" />
+            </View>
+            <View style={dynamicStyles.channelInfo}>
+              <Text style={dynamicStyles.channelName}># Allgemein</Text>
+              <Text style={dynamicStyles.channelDescription}>
+                Allgemeine Kommunikation für alle Beamten
+              </Text>
+            </View>
+            <View style={dynamicStyles.channelActions}>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </View>
+          </TouchableOpacity>
+
+          {/* Dienst Channel */}
+          <TouchableOpacity 
+            style={[dynamicStyles.channelItem, dynamicStyles.fixedChannel]}
+            onPress={() => {
+              setSelectedChannel('service');
+              setSelectedChat(null);
+            }}
+          >
+            <View style={[dynamicStyles.channelIcon, { backgroundColor: '#FF9800' }]}>
+              <Ionicons name="shield" size={24} color="#FFFFFF" />
+            </View>
+            <View style={dynamicStyles.channelInfo}>
+              <Text style={dynamicStyles.channelName}># Dienst</Text>
+              <Text style={dynamicStyles.channelDescription}>
+                Dienstliche Mitteilungen und Koordination
+              </Text>
+            </View>
+            <View style={dynamicStyles.channelActions}>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </View>
+          </TouchableOpacity>
+
+          {/* Notfall Channel */}
+          <TouchableOpacity 
+            style={[dynamicStyles.channelItem, dynamicStyles.fixedChannel, dynamicStyles.emergencyChannel]}
+            onPress={() => {
+              setSelectedChannel('emergency');
+              setSelectedChat(null);
+            }}
+          >
+            <View style={[dynamicStyles.channelIcon, { backgroundColor: '#F44336' }]}>
+              <Ionicons name="warning" size={24} color="#FFFFFF" />
+            </View>
+            <View style={dynamicStyles.channelInfo}>
+              <Text style={[dynamicStyles.channelName, { color: '#F44336' }]}># Notfall</Text>
+              <Text style={dynamicStyles.channelDescription}>
+                🚨 Nur für Notfälle und dringende Einsätze
+              </Text>
+            </View>
+            <View style={dynamicStyles.channelActions}>
+              <Ionicons name="chevron-forward" size={20} color="#F44336" />
+            </View>
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={dynamicStyles.chatsList}>
-          {privateChats.length === 0 ? (
-            <View style={dynamicStyles.emptyState}>
-              <Ionicons name="chatbubbles-outline" size={64} color={colors.textMuted} />
-              <Text style={dynamicStyles.emptyText}>Keine privaten Chats</Text>
-              <Text style={dynamicStyles.emptySubtext}>
-                Klicken Sie auf + um einen neuen Chat zu erstellen
-              </Text>
-            </View>
-          ) : (
-            privateChats.map((chat) => (
-              <TouchableOpacity 
-                key={chat.id}
-                style={dynamicStyles.chatListItem}
-                onPress={() => setSelectedChat(chat)}
-              >
-                <View style={dynamicStyles.chatAvatar}>
-                  <Ionicons name="chatbubble" size={24} color={colors.primary} />
-                </View>
-                <View style={dynamicStyles.chatInfo}>
-                  <Text style={dynamicStyles.chatName}>{chat.name}</Text>
-                  <Text style={dynamicStyles.chatLastMessage}>
-                    {chat.last_message || 'Noch keine Nachrichten'}
-                  </Text>
-                  <Text style={dynamicStyles.chatTime}>
-                    {chat.last_message_time ? 
-                      new Date(chat.last_message_time).toLocaleString('de-DE') :
-                      new Date(chat.created_at).toLocaleString('de-DE')
-                    }
-                  </Text>
-                </View>
-                <View style={dynamicStyles.chatActions}>
-                  {chat.unread_count > 0 && (
-                    <View style={dynamicStyles.unreadBadge}>
-                      <Text style={dynamicStyles.unreadText}>{chat.unread_count}</Text>
-                    </View>
-                  )}
-                  <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
-                </View>
-              </TouchableOpacity>
-            ))
-          )}
-        </ScrollView>
+        {/* PRIVATE CHATS SECTION */}
+        <View style={dynamicStyles.privateChatSection}>
+          <View style={dynamicStyles.sectionHeader}>
+            <Text style={dynamicStyles.sectionTitle}>💬 Private Chats</Text>
+            <TouchableOpacity 
+              style={dynamicStyles.newChatButton}
+              onPress={() => createPrivateChat()}
+            >
+              <Ionicons name="add" size={20} color="#FFFFFF" />
+              <Text style={dynamicStyles.newChatButtonText}>Neuer Chat</Text>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={dynamicStyles.chatsList}>
+            {privateChats.length === 0 ? (
+              <View style={dynamicStyles.emptyState}>
+                <Ionicons name="chatbubbles-outline" size={48} color={colors.textMuted} />
+                <Text style={dynamicStyles.emptyText}>Keine privaten Chats</Text>
+                <Text style={dynamicStyles.emptySubtext}>
+                  Klicken Sie auf "Neuer Chat" um zu beginnen
+                </Text>
+              </View>
+            ) : (
+              privateChats.map((chat) => (
+                <TouchableOpacity 
+                  key={chat.id}
+                  style={dynamicStyles.chatListItem}
+                  onPress={() => setSelectedChat(chat)}
+                >
+                  <View style={dynamicStyles.chatAvatar}>
+                    <Ionicons name="person" size={20} color={colors.primary} />
+                  </View>
+                  <View style={dynamicStyles.chatInfo}>
+                    <Text style={dynamicStyles.chatName}>{chat.name}</Text>
+                    <Text style={dynamicStyles.chatLastMessage}>
+                      {chat.last_message || 'Noch keine Nachrichten'}
+                    </Text>
+                  </View>
+                  <View style={dynamicStyles.chatActions}>
+                    <Text style={dynamicStyles.chatTime}>
+                      {chat.last_message_time ? 
+                        new Date(chat.last_message_time).toLocaleTimeString('de-DE', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }) :
+                        new Date(chat.created_at).toLocaleTimeString('de-DE', {
+                          hour: '2-digit', 
+                          minute: '2-digit'
+                        })
+                      }
+                    </Text>
+                    {chat.unread_count > 0 && (
+                      <View style={dynamicStyles.unreadBadge}>
+                        <Text style={dynamicStyles.unreadText}>{chat.unread_count}</Text>
+                      </View>
+                    )}
+                    <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+                  </View>
+                </TouchableOpacity>
+              ))
+            )}
+          </ScrollView>
+        </View>
       </View>
     );
   };
