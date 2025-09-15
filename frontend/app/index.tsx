@@ -3489,6 +3489,10 @@ const MainApp = () => {
       backgroundColor: colors.surface,
       borderTopWidth: 1,
       borderTopColor: colors.border,
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
     },
     messageInputRow: {
       flexDirection: 'row',
