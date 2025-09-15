@@ -4120,7 +4120,8 @@ const MainApp = () => {
             // Channel messages
             <View style={dynamicStyles.channelContainer}>
               <ScrollView 
-                style={dynamicStyles.channelMessages}
+                style={[dynamicStyles.channelMessages, { marginBottom: 80 }]}
+                contentContainerStyle={{ paddingBottom: 20 }}
                 ref={(ref) => {
                   if (ref && (channelMessages[selectedChannel] || []).length > 0) {
                     setTimeout(() => ref.scrollToEnd({ animated: true }), 100);
