@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -12,121 +12,196 @@ const GoogleMapsView = ({ incident }) => {
     border: '#e9ecef',
     primary: '#2196F3'
   };
-  const [officers, setOfficers] = useState([]);
-  const [loadError, setLoadError] = useState(false);
 
-  // Always render fallback map since Google Maps might not be available
-  const renderFallbackMap = () => {
-    console.log('🗺️ Rendering fallback map for incident:', incident?.title);
-    
-    return (
-      <View style={styles.container}>
-        <View style={styles.modernHeaderContainer}>
-          <View style={styles.headerIconContainer}>
-            <Ionicons name="map" size={32} color="#2196F3" />
-          </View>
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.modernTitle}>📍 Vorfall-Standort</Text>
-            <Text style={styles.modernSubtitle}>
-              {incident?.title || 'Unbekannter Vorfall'}
-            </Text>
-          </View>
-        </View>
-        
-        <View style={styles.mapPlaceholder}>
-          {/* Große, erkennbare Karten-Darstellung */}
-          <View style={styles.mapContainer}>
-            {/* Stadtgebiet Hintergrund */}
-            <View style={styles.cityBackground}>
-              {/* Hauptstraßen (dick und deutlich) */}
-              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 80 }]} />
-              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 160 }]} />
-              <View style={[styles.mainStreet, styles.mainStreetHorizontal, { top: 240 }]} />
-              
-              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 100 }]} />
-              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 200 }]} />
-              <View style={[styles.mainStreet, styles.mainStreetVertical, { left: 300 }]} />
-              
-              {/* Nebenstraßen (dünner) */}
-              <View style={[styles.street, styles.streetHorizontal, { top: 50 }]} />
-              <View style={[styles.street, styles.streetHorizontal, { top: 120 }]} />
-              <View style={[styles.street, styles.streetHorizontal, { top: 200 }]} />
-              <View style={[styles.street, styles.streetHorizontal, { top: 280 }]} />
-              
-              <View style={[styles.street, styles.streetVertical, { left: 60 }]} />
-              <View style={[styles.street, styles.streetVertical, { left: 140 }]} />
-              <View style={[styles.street, styles.streetVertical, { left: 260 }]} />
-              <View style={[styles.street, styles.streetVertical, { left: 340 }]} />
-              
-              {/* Gebäude-Blöcke */}
-              <View style={[styles.building, { top: 60, left: 110, width: 80, height: 50 }]} />
-              <View style={[styles.building, { top: 60, left: 210, width: 80, height: 50 }]} />
-              <View style={[styles.building, { top: 170, left: 110, width: 80, height: 60 }]} />
-              <View style={[styles.building, { top: 170, left: 270, width: 60, height: 60 }]} />
-              
-              {/* Park/Grünfläche */}
-              <View style={[styles.park, { top: 130, left: 210, width: 50, height: 50 }]} />
-            </View>
-            
-            {/* GROSSER Vorfall-Marker (sehr auffällig) */}
-            <View style={[styles.incidentMarkerLarge, { top: 140, left: 180 }]}>
-              <View style={styles.incidentPulse} />
-              <Ionicons name="warning" size={32} color="#FFFFFF" />
-              <Text style={styles.incidentLabel}>🚨 EINSATZ</Text>
-              <Text style={styles.incidentSubLabel}>{incident?.title?.substring(0, 10) || 'VORFALL'}</Text>
-            </View>
-            
-            {/* Polizeistation (deutlich erkennbar) */}
-            <View style={[styles.policeStationLarge, { top: 200, left: 280 }]}>
-              <Ionicons name="shield" size={28} color="#FFFFFF" />
-              <Text style={styles.stationLabel}>👮 REVIER</Text>
-            </View>
-            
-            {/* Polizeifahrzeuge (beweglich) */}
-            <View style={[styles.policeVehicle, { top: 110, left: 150 }]}>
-              <Ionicons name="car-sport" size={20} color="#FFFFFF" />
-              <Text style={styles.vehicleLabel}>FUNK 1</Text>
-            </View>
-            
-            <View style={[styles.policeVehicle, { top: 180, left: 320 }]}>
-              <Ionicons name="car-sport" size={20} color="#FFFFFF" />
-              <Text style={styles.vehicleLabel}>FUNK 2</Text>
-            </View>
-            
-            {/* Stadtkern-Label */}
-            <View style={styles.cityLabel}>
-              <Text style={styles.cityLabelText}>🏛️ SCHWELM ZENTRUM</Text>
-              <Text style={styles.coordsLabel}>51.2878°N • 7.3372°O</Text>
-            </View>
-            
-            {/* Entfernungsanzeige */}
-            <View style={styles.distanceInfo}>
-              <Text style={styles.distanceText}>📍 Entfernung zum Einsatzort:</Text>
-              <Text style={styles.distanceValue}>🚔 Funk 1: ~200m</Text>
-              <Text style={styles.distanceValue}>🚔 Funk 2: ~350m</Text>
-            </View>
-          </View>
-        </View>
+  const [mapLoaded, setMapLoaded] = useState(false);
 
-        <View style={styles.mapLegend}>
-          <Text style={[styles.legendItem, { color: colors.text }]}>
-            🔴 Vorfall-Position
-          </Text>
-          <Text style={[styles.legendItem, { color: colors.text }]}>
-            🏢 {incident?.address || 'Keine Adresse verfügbar'}
-          </Text>
-          <Text style={[styles.legendItem, { color: colors.textMuted }]}>
-            ⚠️ Priorität: {incident?.priority === 'high' ? '🚨 Hoch' : 
-                          incident?.priority === 'medium' ? '⚠️ Mittel' : 
-                          '✅ Niedrig'}
+  // Get coordinates from incident
+  const getCoordinates = () => {
+    if (incident?.location?.lat && incident?.location?.lng) {
+      return {
+        lat: parseFloat(incident.location.lat),
+        lng: parseFloat(incident.location.lng)
+      };
+    }
+    if (incident?.coordinates?.lat && incident?.coordinates?.lng) {
+      return {
+        lat: parseFloat(incident.coordinates.lat),
+        lng: parseFloat(incident.coordinates.lng)
+      };
+    }
+    // Fallback: Schwelm coordinates
+    return {
+      lat: 51.2878,
+      lng: 7.3372
+    };
+  };
+
+  const coordinates = getCoordinates();
+
+  useEffect(() => {
+    // Try to load Google Maps
+    if (typeof window !== 'undefined' && !window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        setMapLoaded(true);
+        initializeMap();
+      };
+      script.onerror = () => {
+        console.log('Google Maps failed to load, using fallback');
+        setMapLoaded(false);
+      };
+      document.head.appendChild(script);
+    } else if (window.google) {
+      setMapLoaded(true);
+      initializeMap();
+    }
+  }, [incident]);
+
+  const initializeMap = () => {
+    if (!window.google) return;
+
+    const mapElement = document.getElementById('google-map-real');
+    if (!mapElement) return;
+
+    const map = new window.google.maps.Map(mapElement, {
+      center: coordinates,
+      zoom: 16,
+      mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+      styles: [
+        {
+          featureType: 'poi.business',
+          stylers: [{ visibility: 'off' }]
+        }
+      ]
+    });
+
+    // Add incident marker
+    new window.google.maps.Marker({
+      position: coordinates,
+      map: map,
+      title: incident?.title || 'Vorfall',
+      icon: {
+        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+          <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="#FF4444" stroke="#FFFFFF" stroke-width="4"/>
+            <text x="20" y="26" text-anchor="middle" fill="white" font-size="20" font-weight="bold">!</text>
+          </svg>
+        `)}`,
+        scaledSize: new window.google.maps.Size(40, 40)
+      }
+    });
+
+    // Info window
+    const infoWindow = new window.google.maps.InfoWindow({
+      content: `
+        <div style="padding: 8px; max-width: 200px;">
+          <h3 style="margin: 0 0 8px 0; color: #FF4444;">🚨 ${incident?.title || 'Vorfall'}</h3>
+          <p style="margin: 0 0 4px 0;"><strong>Adresse:</strong> ${incident?.address || incident?.location || 'Unbekannt'}</p>
+          <p style="margin: 0 0 4px 0;"><strong>Priorität:</strong> ${incident?.priority || 'Normal'}</p>
+          <p style="margin: 0; font-size: 12px; color: #666;">
+            📍 ${coordinates.lat.toFixed(6)}, ${coordinates.lng.toFixed(6)}
+          </p>
+        </div>
+      `
+    });
+
+    // Show info window immediately
+    infoWindow.open(map);
+  };
+
+  // Fallback when Google Maps is not available
+  const renderFallback = () => (
+    <View style={styles.container}>
+      <View style={styles.modernHeaderContainer}>
+        <View style={styles.headerIconContainer}>
+          <Ionicons name="map" size={32} color="#2196F3" />
+        </View>
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.modernTitle}>📍 Vorfall-Standort</Text>
+          <Text style={styles.modernSubtitle}>
+            {incident?.title || 'Unbekannter Vorfall'}
           </Text>
         </View>
       </View>
-    );
-  };
+      
+      <View style={styles.mapFallback}>
+        <Ionicons name="location" size={64} color="#2196F3" style={{ marginBottom: 16 }} />
+        <Text style={[styles.fallbackTitle, { color: colors.text }]}>
+          🗺️ Google Maps nicht verfügbar
+        </Text>
+        <Text style={[styles.fallbackText, { color: colors.text }]}>
+          📍 <Text style={{ fontWeight: '600' }}>Adresse:</Text> {incident?.address || incident?.location || 'Nicht verfügbar'}
+        </Text>
+        <Text style={[styles.fallbackText, { color: colors.textMuted }]}>
+          🌍 <Text style={{ fontWeight: '600' }}>Koordinaten:</Text> {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}
+        </Text>
+        <Text style={[styles.fallbackText, { color: colors.textMuted }]}>
+          ⚠️ <Text style={{ fontWeight: '600' }}>Priorität:</Text> {incident?.priority || 'Normal'}
+        </Text>
+        
+        {/* Maps Link */}
+        <View style={styles.mapsLinkContainer}>
+          <Text style={[styles.fallbackText, { color: colors.primary, fontWeight: '600' }]}>
+            🔗 In Google Maps öffnen:
+          </Text>
+          <Text 
+            style={[styles.mapsLink, { color: colors.primary }]}
+            onPress={() => {
+              const url = `https://maps.google.com/maps?q=${coordinates.lat},${coordinates.lng}`;
+              if (typeof window !== 'undefined') {
+                window.open(url, '_blank');
+              }
+            }}
+          >
+            📱 Google Maps Link
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
 
-  // For now, always use fallback since Google Maps integration is complex
-  return renderFallbackMap();
+  return (
+    <View style={styles.container}>
+      <View style={styles.modernHeaderContainer}>
+        <View style={styles.headerIconContainer}>
+          <Ionicons name="map" size={32} color="#2196F3" />
+        </View>
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.modernTitle}>🗺️ Google Maps</Text>
+          <Text style={styles.modernSubtitle}>
+            {incident?.title || 'Vorfall-Position'}
+          </Text>
+        </View>
+      </View>
+
+      {/* Try to render real Google Maps */}
+      <div 
+        id="google-map-real" 
+        style={{ 
+          width: '100%', 
+          height: 300,
+          borderRadius: 12,
+          border: '2px solid #e9ecef',
+          display: mapLoaded ? 'block' : 'none'
+        }}
+      />
+
+      {/* Fallback if Google Maps doesn't load */}
+      {!mapLoaded && renderFallback()}
+
+      <View style={styles.mapInfo}>
+        <Text style={[styles.infoText, { color: colors.text }]}>
+          📍 {incident?.address || incident?.location || 'Adresse nicht verfügbar'}
+        </Text>
+        <Text style={[styles.infoText, { color: colors.textMuted }]}>
+          🌍 {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}
+        </Text>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
