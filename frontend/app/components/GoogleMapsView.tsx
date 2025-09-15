@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../contexts/ThemeContext';
 
-// Web-spezifische Google Maps Integration
-const GoogleMapsView = ({ incident, user, token }) => {
+const GoogleMapsView = ({ incident }) => {
+  const { colors } = useTheme();
   const [map, setMap] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [officers, setOfficers] = useState([]);
