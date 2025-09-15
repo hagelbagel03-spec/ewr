@@ -2031,9 +2031,59 @@ const MainApp = () => {
     }
   };
 
-  // Send Message Function (verbessert für private Chats)
+  // Chat Management Functions
+  const createPrivateChat = (chatName = 'Neuer Chat') => {
+    const newChat = {
+      id: Date.now().toString(),
+      name: chatName,
+      created_at: new Date().toISOString(),
+      messages: [],
+      unread_count: 0
+    };
+    
+    setPrivateChats(prev => [...prev, newChat]);
+    setSelectedChat(newChat);
+    return newChat;
+  };
+
+  const deleteChat = (chatId) => {
+    setPrivateChats(prev => prev.filter(chat => chat.id !== chatId));
+    if (selectedChat?.id === chatId) {
+      setSelectedChat(null);
+    }
+    setShowChatOptions(null);
+  };
+
+  const updateChatName = (chatId, newName) => {
+    setPrivateChats(prev => prev.map(chat => 
+      chat.id === chatId ? { ...chat, name: newName.trim() || 'Unbenannter Chat' } : chat
+    ));
+    setEditingChatName(null);
+    setNewChatName('');
+  };
+
+  const addMessageToChat = (chatId, message) => {
+    setPrivateChats(prev => prev.map(chat => 
+      chat.id === chatId 
+        ? { 
+            ...chat, 
+            messages: [...chat.messages, message],
+            last_message: message.content,
+            last_message_time: message.timestamp
+          } 
+        : chat
+    ));
+  };
+
+  // Send Message Function (verbessert für Chat-System)
   const sendMessage = async (type = 'private') => {
     if (!newMessage.trim()) return;
+
+    // Erstelle Chat falls noch nicht vorhanden
+    let currentChat = selectedChat;
+    if (!currentChat && type === 'private') {
+      currentChat = createPrivateChat('Privater Chat');
+    }
 
     try {
       const messageData = {
@@ -2042,41 +2092,34 @@ const MainApp = () => {
         type: type,
         channel: type === 'private' ? 'private' : 'general',
         timestamp: new Date().toISOString(),
-        user_id: user?.id
+        user_id: user?.id,
+        chat_id: currentChat?.id
       };
 
       const config = token ? {
         headers: { Authorization: `Bearer ${token}` }
       } : {};
 
-      // Sende an Backend - korrigierte API
+      // Sende an Backend
       const response = await axios.post(`${API_URL}/api/messages`, messageData, config);
       
-      // Füge zu lokalen Messages hinzu (optimistisch)
-      setMessages(prev => [...prev, {
-        ...messageData,
-        id: response.data.id || Date.now(),
-        created_at: new Date().toISOString()
-      }]);
+      // Füge zu lokalem Chat hinzu
+      if (currentChat) {
+        addMessageToChat(currentChat.id, {
+          ...messageData,
+          id: response.data.id || Date.now(),
+          created_at: new Date().toISOString()
+        });
+      }
       
       // Reset input
       setNewMessage('');
       
-      console.log('✅ Private message sent successfully');
-      
-      // Chat sollte automatisch erstellt werden durch Backend
+      console.log('✅ Message sent successfully to chat:', currentChat?.name);
       
     } catch (error) {
-      console.error('❌ Error sending private message:', error);
-      console.error('❌ Error details:', error.response?.data);
-      
-      // Bessere Fehlermeldung
-      let errorMsg = 'Nachricht konnte nicht gesendet werden';
-      if (error.response?.data?.detail) {
-        errorMsg = error.response.data.detail;
-      }
-      
-      window.alert(`❌ ${errorMsg}`);
+      console.error('❌ Error sending message:', error);
+      window.alert(`❌ Nachricht konnte nicht gesendet werden`);
     }
   };
 
