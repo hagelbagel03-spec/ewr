@@ -3444,7 +3444,336 @@ const MainApp = () => {
       lineHeight: 20,
     },
 
-    // Channel System Styles
+    // Modern Chat Design Styles
+    modernChatHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+
+    backButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primary + '15',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+
+    chatHeaderInfo: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+
+    chatHeaderAvatar: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+
+    chatHeaderName: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 2,
+    },
+
+    chatHeaderStatus: {
+      fontSize: 12,
+      color: colors.textMuted,
+      fontWeight: '500',
+    },
+
+    optionsButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    messagesArea: {
+      flex: 1,
+      padding: 16,
+      backgroundColor: colors.background,
+    },
+
+    modernMessageBubble: {
+      maxWidth: '80%',
+      marginBottom: 12,
+      padding: 12,
+      borderRadius: 16,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+      elevation: 1,
+    },
+
+    myMessageBubble: {
+      alignSelf: 'flex-end',
+      backgroundColor: colors.primary,
+      borderBottomRightRadius: 4,
+    },
+
+    otherMessageBubble: {
+      alignSelf: 'flex-start',
+      backgroundColor: colors.surface,
+      borderBottomLeftRadius: 4,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+
+    modernMessageText: {
+      fontSize: 16,
+      lineHeight: 20,
+      marginBottom: 4,
+    },
+
+    myMessageText: {
+      color: '#FFFFFF',
+    },
+
+    otherMessageText: {
+      color: colors.text,
+    },
+
+    messageSenderName: {
+      fontSize: 12,
+      fontWeight: '600',
+      marginBottom: 4,
+      color: colors.primary,
+    },
+
+    modernMessageTime: {
+      fontSize: 11,
+      opacity: 0.7,
+    },
+
+    myMessageTime: {
+      color: '#FFFFFF',
+      textAlign: 'right',
+    },
+
+    otherMessageTime: {
+      color: colors.textMuted,
+    },
+
+    modernMessageInput: {
+      backgroundColor: colors.surface,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+      padding: 16,
+      paddingBottom: 32,
+    },
+
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      backgroundColor: colors.background,
+      borderRadius: 24,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 2,
+      elevation: 1,
+    },
+
+    textInput: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+      maxHeight: 100,
+      minHeight: 40,
+      paddingVertical: 8,
+      paddingRight: 12,
+      lineHeight: 20,
+    },
+
+    modernSendButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft: 8,
+    },
+
+    sendButtonActive: {
+      backgroundColor: colors.primary,
+      shadowColor: colors.primary,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+
+    sendButtonInactive: {
+      backgroundColor: colors.textMuted + '30',
+    },
+
+    emptyChat: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 60,
+    },
+
+    emptyChatText: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.textMuted,
+      marginBottom: 8,
+    },
+
+    emptyChatSubtext: {
+      fontSize: 14,
+      color: colors.textMuted,
+      textAlign: 'center',
+      paddingHorizontal: 40,
+    },
+
+    chatDropdown: {
+      position: 'absolute',
+      top: 80,
+      right: 16,
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 8,
+      elevation: 8,
+      zIndex: 1000,
+      minWidth: 200,
+    },
+
+    dropdownItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border + '50',
+    },
+
+    dropdownText: {
+      fontSize: 16,
+      color: colors.text,
+      marginLeft: 12,
+      fontWeight: '500',
+    },
+
+    editModal: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 2000,
+    },
+
+    editModalContent: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 24,
+      minWidth: 300,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.25,
+      shadowRadius: 16,
+      elevation: 12,
+    },
+
+    editModalTitle: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+
+    editModalInput: {
+      borderWidth: 2,
+      borderColor: colors.primary,
+      borderRadius: 12,
+      padding: 16,
+      fontSize: 16,
+      color: colors.text,
+      backgroundColor: colors.background,
+      marginBottom: 20,
+    },
+
+    editModalButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 12,
+    },
+
+    modalButton: {
+      flex: 1,
+      paddingVertical: 14,
+      paddingHorizontal: 20,
+      borderRadius: 12,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+
+    cancelButton: {
+      backgroundColor: colors.textMuted + '20',
+      borderWidth: 1,
+      borderColor: colors.textMuted + '50',
+    },
+
+    saveButton: {
+      backgroundColor: colors.primary,
+    },
+
+    cancelButtonText: {
+      color: colors.textMuted,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+
+    saveButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: '600',
+    },
     fixedChannelsSection: {
       backgroundColor: colors.surface,
       borderRadius: 12,
