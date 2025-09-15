@@ -4649,6 +4649,189 @@ const MainApp = () => {
   // Render chat screen function
   // Chat Screen mit Channels + Private Chats
   const renderChatScreen = () => {
+    console.log('🔍 renderChatScreen called');
+    
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.background, padding: 16 }}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', color: colors.text, marginBottom: 20, textAlign: 'center' }}>
+          💬 Nachrichten-System
+        </Text>
+        
+        {/* CHANNELS */}
+        <View style={{ backgroundColor: colors.surface, borderRadius: 12, padding: 16, marginBottom: 16 }}>
+          <Text style={{ fontSize: 18, fontWeight: '600', color: colors.text, marginBottom: 12 }}>
+            📢 Dienst-Channels
+          </Text>
+          
+          <TouchableOpacity 
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: '#4CAF50',
+              padding: 16,
+              borderRadius: 8,
+              marginBottom: 8
+            }}
+            onPress={() => {
+              console.log('✅ Allgemein channel clicked');
+              window.alert('🟢 # Allgemein Channel\n\nDieser Channel ist für allgemeine Kommunikation.');
+            }}
+          >
+            <Ionicons name="people" size={24} color="#FFFFFF" style={{ marginRight: 12 }} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+                # Allgemein
+              </Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 12, opacity: 0.9 }}>
+                Allgemeine Kommunikation
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: '#FF9800',
+              padding: 16,
+              borderRadius: 8,
+              marginBottom: 8
+            }}
+            onPress={() => {
+              console.log('✅ Dienst channel clicked');
+              window.alert('🟠 # Dienst Channel\n\nDieser Channel ist für dienstliche Mitteilungen.');
+            }}
+          >
+            <Ionicons name="shield" size={24} color="#FFFFFF" style={{ marginRight: 12 }} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+                # Dienst
+              </Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 12, opacity: 0.9 }}>
+                Dienstliche Mitteilungen
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: '#F44336',
+              padding: 16,
+              borderRadius: 8
+            }}
+            onPress={() => {
+              console.log('✅ Notfall channel clicked');
+              window.alert('🔴 # Notfall Channel\n\n🚨 Nur für Notfälle und dringende Einsätze!');
+            }}
+          >
+            <Ionicons name="warning" size={24} color="#FFFFFF" style={{ marginRight: 12 }} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+                # Notfall
+              </Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 12, opacity: 0.9 }}>
+                🚨 Nur für Notfälle
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+
+        {/* PRIVATE CHATS */}
+        <View style={{ backgroundColor: colors.surface, borderRadius: 12, padding: 16, flex: 1 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: '600', color: colors.text }}>
+              💬 Private Chats
+            </Text>
+            <TouchableOpacity 
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: colors.primary,
+                paddingHorizontal: 12,
+                paddingVertical: 8,
+                borderRadius: 20
+              }}
+              onPress={() => {
+                console.log('✅ New chat button clicked');
+                const chatName = prompt('Chat-Name eingeben:', 'Neuer Chat');
+                if (chatName) {
+                  createPrivateChat(chatName);
+                  window.alert(`✅ Chat "${chatName}" wurde erstellt!`);
+                }
+              }}
+            >
+              <Ionicons name="add" size={16} color="#FFFFFF" style={{ marginRight: 4 }} />
+              <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }}>
+                Neuer Chat
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView style={{ flex: 1 }}>
+            {privateChats.length === 0 ? (
+              <View style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: 40 }}>
+                <Ionicons name="chatbubbles-outline" size={48} color={colors.textMuted} />
+                <Text style={{ fontSize: 16, color: colors.textMuted, marginTop: 12, textAlign: 'center' }}>
+                  Keine privaten Chats
+                </Text>
+                <Text style={{ fontSize: 12, color: colors.textMuted, marginTop: 4, textAlign: 'center' }}>
+                  Klicken Sie auf "Neuer Chat"
+                </Text>
+              </View>
+            ) : (
+              privateChats.map((chat) => (
+                <TouchableOpacity 
+                  key={chat.id}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: colors.background,
+                    padding: 12,
+                    borderRadius: 8,
+                    marginBottom: 8,
+                    borderWidth: 1,
+                    borderColor: colors.border
+                  }}
+                  onPress={() => {
+                    console.log('✅ Chat selected:', chat.name);
+                    window.alert(`💬 Chat: ${chat.name}\n\nNachrichten: ${chat.messages?.length || 0}`);
+                  }}
+                >
+                  <View style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    backgroundColor: colors.primary,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 12
+                  }}>
+                    <Ionicons name="person" size={20} color="#FFFFFF" />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+                      {chat.name}
+                    </Text>
+                    <Text style={{ fontSize: 12, color: colors.textMuted }}>
+                      {chat.last_message || 'Keine Nachrichten'}
+                    </Text>
+                  </View>
+                  <Text style={{ fontSize: 10, color: colors.textMuted }}>
+                    {new Date(chat.created_at).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+                  </Text>
+                </TouchableOpacity>
+              ))
+            )}
+          </ScrollView>
+        </View>
+      </View>
+    );
+  };
     // CHANNEL-CHAT VIEW (Allgemein, Dienst, Notfall)
     if (selectedChannel) {
       const channelInfo = {
