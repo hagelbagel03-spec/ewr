@@ -1519,6 +1519,12 @@ const MainApp = () => {
     setShowPrivateMessageModal(true);
   };
 
+  // Open all incidents modal function
+  const openAllIncidentsModal = () => {
+    console.log('🚨 Opening all incidents modal');
+    setShowAllIncidentsModal(true);
+  };
+
   // Load recent messages for current user (only recent for overview)
   const loadRecentMessages = async () => {
     try {
