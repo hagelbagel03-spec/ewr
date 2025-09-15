@@ -2026,7 +2026,7 @@ const MainApp = () => {
     }
   };
 
-  // Send Message Function
+  // Send Message Function (verbessert für private Chats)
   const sendMessage = async (type = 'private') => {
     if (!newMessage.trim()) return;
 
@@ -2035,27 +2035,43 @@ const MainApp = () => {
         content: newMessage.trim(),
         sender: user?.username || 'Unbekannt',
         type: type,
-        timestamp: new Date().toISOString()
+        channel: type === 'private' ? 'private' : 'general',
+        timestamp: new Date().toISOString(),
+        user_id: user?.id
       };
 
       const config = token ? {
         headers: { Authorization: `Bearer ${token}` }
       } : {};
 
-      // Sende an Backend
-      await axios.post(`${API_URL}/api/messages/private`, messageData, config);
+      // Sende an Backend - korrigierte API
+      const response = await axios.post(`${API_URL}/api/messages`, messageData, config);
       
-      // Füge zu lokalen Messages hinzu
-      setMessages(prev => [...prev, messageData]);
+      // Füge zu lokalen Messages hinzu (optimistisch)
+      setMessages(prev => [...prev, {
+        ...messageData,
+        id: response.data.id || Date.now(),
+        created_at: new Date().toISOString()
+      }]);
       
       // Reset input
       setNewMessage('');
       
       console.log('✅ Private message sent successfully');
       
+      // Chat sollte automatisch erstellt werden durch Backend
+      
     } catch (error) {
       console.error('❌ Error sending private message:', error);
-      window.alert('❌ Nachricht konnte nicht gesendet werden');
+      console.error('❌ Error details:', error.response?.data);
+      
+      // Bessere Fehlermeldung
+      let errorMsg = 'Nachricht konnte nicht gesendet werden';
+      if (error.response?.data?.detail) {
+        errorMsg = error.response.data.detail;
+      }
+      
+      window.alert(`❌ ${errorMsg}`);
     }
   };
 
