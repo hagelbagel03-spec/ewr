@@ -2026,6 +2026,66 @@ const MainApp = () => {
     }
   };
 
+  // Chat Screen für private Nachrichten
+  const renderChatScreen = () => (
+    <View style={dynamicStyles.container}>
+      <Text style={dynamicStyles.screenTitle}>💬 Nachrichten</Text>
+      
+      {/* Private Nachrichten Bereich */}
+      <View style={dynamicStyles.chatContainer}>
+        <Text style={dynamicStyles.sectionTitle}>📱 Private Nachrichten</Text>
+        
+        <ScrollView style={dynamicStyles.messagesList}>
+          {messages.filter(msg => msg.type === 'private').map((message, index) => (
+            <View key={index} style={[
+              dynamicStyles.messageCard,
+              message.sender === user?.username && dynamicStyles.ownMessage
+            ]}>
+              <Text style={dynamicStyles.messageSender}>
+                {message.sender === user?.username ? '👤 Sie' : `👤 ${message.sender}`}
+              </Text>
+              <Text style={dynamicStyles.messageText}>{message.content}</Text>
+              <Text style={dynamicStyles.messageTime}>
+                {new Date(message.timestamp).toLocaleString('de-DE')}
+              </Text>
+            </View>
+          ))}
+          
+          {messages.filter(msg => msg.type === 'private').length === 0 && (
+            <View style={dynamicStyles.emptyState}>
+              <Ionicons name="chatbubbles-outline" size={64} color={colors.textMuted} />
+              <Text style={dynamicStyles.emptyText}>Keine privaten Nachrichten</Text>
+              <Text style={dynamicStyles.emptySubtext}>
+                Schreiben Sie eine Nachricht um zu beginnen
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+
+        {/* Nachricht schreiben */}
+        <View style={dynamicStyles.messageInputContainer}>
+          <TextInput
+            style={dynamicStyles.messageInput}
+            value={newMessage}
+            onChangeText={setNewMessage}
+            placeholder="Private Nachricht schreiben..."
+            multiline
+          />
+          <TouchableOpacity 
+            style={[
+              dynamicStyles.sendButton,
+              !newMessage.trim() && dynamicStyles.sendButtonDisabled
+            ]}
+            onPress={() => sendMessage('private')}
+            disabled={!newMessage.trim()}
+          >
+            <Ionicons name="send" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
+
   const openIncidentDetails = (incident) => {
     setSelectedIncident(incident);
     setShowIncidentModal(true);
