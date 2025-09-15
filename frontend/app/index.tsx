@@ -6553,9 +6553,11 @@ Beispielinhalt:
                       onPress={(e) => {
                         e.stopPropagation();
                         setSelectedIncident(incident);
-                        // Öffne Karte IM SELBEN Modal (nicht separates Modal)
-                        // TODO: Karte kann hier später integriert werden
-                        alert(`🗺️ Karte für "${incident.title}"\n📍 ${incident.address || incident.location || 'Standort unbekannt'}`);
+                        // Schließe Übersicht und öffne Karte
+                        setShowAllIncidentsModal(false);
+                        setTimeout(() => {
+                          setShowIncidentMap(true);
+                        }, 100);
                       }}
                     >
                       <Ionicons name="map" size={18} color="#FFFFFF" />
@@ -6565,8 +6567,11 @@ Beispielinhalt:
                       onPress={(e) => {
                         e.stopPropagation();
                         setSelectedIncident(incident);
-                        // Bleibe in der Übersicht, zeige erweiterte Details
-                        alert(`📋 Details für "${incident.title}"\n📝 ${incident.description}\n📍 ${incident.address || incident.location}\n⚠️ Priorität: ${incident.priority}`);
+                        // Schließe Übersicht und öffne Details
+                        setShowAllIncidentsModal(false);
+                        setTimeout(() => {
+                          setShowIncidentDetailModal(true);
+                        }, 100);
                       }}
                     >
                       <Ionicons name="eye" size={18} color="#FFFFFF" />
