@@ -6553,10 +6553,10 @@ Beispielinhalt:
                       onPress={(e) => {
                         e.stopPropagation();
                         setSelectedIncident(incident);
-                        // Schließe Übersicht und öffne Karte
+                        // Schließe Übersicht und öffne Vorfall-Details (mit Karte drin)
                         setShowAllIncidentsModal(false);
                         setTimeout(() => {
-                          setShowIncidentMap(true);
+                          setShowIncidentDetailModal(true);
                         }, 100);
                       }}
                     >
@@ -6567,7 +6567,7 @@ Beispielinhalt:
                       onPress={(e) => {
                         e.stopPropagation();
                         setSelectedIncident(incident);
-                        // Schließe Übersicht und öffne Details
+                        // Schließe Übersicht und öffne Vorfall-Details
                         setShowAllIncidentsModal(false);
                         setTimeout(() => {
                           setShowIncidentDetailModal(true);
